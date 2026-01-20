@@ -1,74 +1,85 @@
-// ============================
-// Fluid drop on click
-// ============================
-document.addEventListener("click", (e) => {
+/*
+===========================================================
+File: script.js
+Author: Zayaan Bhanwadia
+Created: 2026
+Description:
+  - Fluid drop animation on mouse clicks.
+  - Page fade-in/fade-out transitions for internal links.
+  - Misty purple cursor trail following the mouse.
+===========================================================
+*/
+
+
+/* ============================
+   Fluid drop on click
+============================ */
+document.addEventListener("click", e => {
   const drop = document.createElement("div");
   drop.classList.add("fluid-drop");
 
-  // Position at click
   drop.style.left = `${e.clientX}px`;
   drop.style.top = `${e.clientY}px`;
 
-  // Randomize size and opacity
   const size = 20 + Math.random() * 20;
   drop.style.width = `${size}px`;
   drop.style.height = `${size}px`;
-  drop.style.background = `rgba(79, 140, 255, ${0.2 + Math.random() * 0.2})`;
+  drop.style.background = `rgba(79,140,255,${0.2 + Math.random() * 0.2})`;
 
   document.body.appendChild(drop);
-
-  drop.addEventListener("animationend", () => {
-    drop.remove();
-  });
+  drop.addEventListener("animationend", () => drop.remove());
 });
 
-// ============================
-// Page fade transitions
-// ============================
+/* ============================
+   Page fade transitions
+============================ */
 document.addEventListener("DOMContentLoaded", () => {
-  // Fade in on load
   document.body.style.opacity = 0;
   requestAnimationFrame(() => {
     document.body.style.transition = "opacity 0.6s ease";
     document.body.style.opacity = 1;
   });
 
-  // Fade out on internal link click
-  const links = document.querySelectorAll("nav a");
-  links.forEach(link => {
+  document.querySelectorAll("nav a").forEach(link => {
     const href = link.getAttribute("href");
-    if (!href.startsWith("http")) { // internal links only
-      link.addEventListener("click", (e) => {
+    if (!href.startsWith("http")) {
+      link.addEventListener("click", e => {
         e.preventDefault();
-
-        // Fade out
         document.body.style.opacity = 0;
-
-        // Navigate after transition
-        setTimeout(() => {
-          window.location.href = href;
-        }, 600); // match CSS duration
+        setTimeout(() => (window.location.href = href), 600);
       });
     }
   });
 });
 
-// ============================
-// Misty purple cursor trail
-// ============================
-const mistCount = 15;
+/* ============================
+   Misty cursor trail (advanced)
+============================ */
+const mistCount = 30;
 const trails = [];
+const mouse = { x: 0, y: 0 };
 
 for (let i = 0; i < mistCount; i++) {
-  const div = document.createElement('div');
-  div.classList.add('cursor-mist');
-  document.body.appendChild(div);
-  trails.push({ el: div, x: 0, y: 0 });
+  const element = document.createElement("div");
+  element.classList.add("cursor-mist");
+
+  const size = 15 + Math.random() * 25;
+  element.style.width = `${size}px`;
+  element.style.height = `${size}px`;
+  element.style.opacity = 0.05 + Math.random() * 0.15;
+
+  document.body.appendChild(element);
+
+  trails.push({
+    element,
+    x: 0,
+    y: 0,
+    baseSize: size,
+    speed: 0.2 + Math.random() * 0.25
+  });
 }
 
-let mouse = { x: 0, y: 0 };
-document.addEventListener('mousemove', e => {
-  // Use clientX/clientY for fixed positioning
+document.addEventListener("mousemove", e => {
   mouse.x = e.clientX;
   mouse.y = e.clientY;
 });
@@ -78,15 +89,15 @@ function animateTrail() {
   let y = mouse.y;
 
   trails.forEach((trail, index) => {
-    // Smooth follow
-    trail.x += (x - trail.x) * 0.25;
-    trail.y += (y - trail.y) * 0.25;
+    trail.x += (x - trail.x) * trail.speed;
+    trail.y += (y - trail.y) * trail.speed;
 
-    // Apply transform
-    trail.el.style.transform = `translate(${trail.x}px, ${trail.y}px)`;
+    trail.element.style.transform = `translate(${trail.x}px,${trail.y}px)`;
+    trail.element.style.opacity = 0.1 * ((mistCount - index) / mistCount);
 
-    // Opacity trail effect
-    trail.el.style.opacity = 0.7 * ((mistCount - index) / mistCount);
+    const scale = 0.8 + Math.random() * 0.4;
+    trail.element.style.width = `${trail.baseSize * scale}px`;
+    trail.element.style.height = `${trail.baseSize * scale}px`;
 
     x = trail.x;
     y = trail.y;
@@ -96,4 +107,3 @@ function animateTrail() {
 }
 
 animateTrail();
-

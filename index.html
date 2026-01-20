@@ -1,44 +1,50 @@
-<!-- ============================ -->
-<!-- FILE: index.html (Home, with responsive banner) -->
-<!-- ============================ -->
+<!--
+File: index.html
+Purpose: Home page
+Author: Zayaan Bhanwadia
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zayaan | Home</title>
-  <!-- Fonts: Inter for body, Lexend Deca for headings, Roboto Mono for labels -->
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend+Deca:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
+  <!-- Navigation -->
   <nav>
-  <div class="nav-container">
-    <div class="logo">Zayaan Bhanwadia</div>
-    <ul class="nav-links">
-      <li><a class="active" href="index.html">Home</a></li>
-      <li><a href="education.html">Education</a></li>
-      <li><a href="projects.html">Projects</a></li>
-      <li><a href="experience.html">Experience</a></li>
-      <li><a href="research.html">Research</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-    </ul>
-  </div>
+    <div class="nav-container">
+      <div class="logo">Zayaan Bhanwadia</div>
+      <ul class="nav-links">
+        <li><a class="active" href="index.html">Home</a></li>
+        <li><a href="education.html">Education</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+      </ul>
+    </div>
   </nav>
 
-  <!-- Banner Section -->
+  <!-- Banner -->
   <section class="banner visible">
     <div class="banner-content">
       <h2>Welcome to My Portfolio</h2>
       <p>
-        Explore my projects, experiences, and research in computer science, software engineering, 
+        Explore my projects, experiences, and research in computer science, software engineering,
         and applied technologies. This portfolio showcases my work, approach, and growth.
       </p>
       <a href="projects.html" class="btn btn-primary">See Projects</a>
     </div>
   </section>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section class="hero visible">
     <div class="hero-grid">
       <div>
@@ -53,19 +59,21 @@
           <a href="experience.html" class="btn btn-secondary">Experience</a>
         </div>
       </div>
+
       <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d" alt="Profile" />
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d" alt="Profile">
       </div>
     </div>
   </section>
 
-  <!-- About Section -->
+  <!-- About -->
   <section>
     <h2>About Me</h2>
     <p class="section-subtitle">
       I am a disciplined and detail-oriented student building a strong foundation in
       computer science through coursework, projects, and independent research.
     </p>
+
     <div class="grid grid-2">
       <div class="card">
         <h3>Interests</h3>
@@ -78,7 +86,9 @@
     </div>
   </section>
 
-  <footer>© 2026 Zayaan</footer>
+  <!-- Footer -->
+  <footer>© 2026 Zayaan Bhanwadia</footer>
+
   <script src="script.js"></script>
 </body>
 </html>
