@@ -1,5 +1,5 @@
 <!-- ============================ -->
-<!-- FILE: index.html (Home) -->
+<!-- FILE: index.html (Home, with responsive banner) -->
 <!-- ============================ -->
 <!DOCTYPE html>
 <html lang="en">
@@ -7,14 +7,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zayaan | Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts: Inter for body, Lexend Deca for headings, Roboto Mono for labels -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend+Deca:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<nav>
+  <nav>
   <div class="nav-container">
-    <div class="logo">Zayaan</div>
-    <ul>
+    <div class="logo">Zayaan Bhanwadia</div>
+    <ul class="nav-links">
       <li><a class="active" href="index.html">Home</a></li>
       <li><a href="education.html">Education</a></li>
       <li><a href="projects.html">Projects</a></li>
@@ -23,47 +24,61 @@
       <li><a href="gallery.html">Gallery</a></li>
     </ul>
   </div>
-</nav>
+  </nav>
 
-<section class="hero visible">
-  <div class="hero-grid">
-    <div>
-      <h1>Hello, I’m <span>Zayaan</span></h1>
+  <!-- Banner Section -->
+  <section class="banner visible">
+    <div class="banner-content">
+      <h2>Welcome to My Portfolio</h2>
       <p>
-        Computer Science student at the University of Toronto Scarborough with interests in
-        software engineering, algorithms, and computational research. I focus on clarity,
-        correctness, and long-term impact.
+        Explore my projects, experiences, and research in computer science, software engineering, 
+        and applied technologies. This portfolio showcases my work, approach, and growth.
       </p>
-      <div class="hero-buttons">
-        <a href="projects.html" class="btn btn-primary">View Projects</a>
-        <a href="experience.html" class="btn btn-secondary">Experience</a>
+      <a href="projects.html" class="btn btn-primary">See Projects</a>
+    </div>
+  </section>
+
+  <!-- Hero Section -->
+  <section class="hero visible">
+    <div class="hero-grid">
+      <div>
+        <h1>Hello, I’m <span>Zayaan</span></h1>
+        <p>
+          Computer Science student at the University of Toronto Scarborough with interests in
+          software engineering, algorithms, and computational research. I focus on clarity,
+          correctness, and long-term impact.
+        </p>
+        <div class="hero-buttons">
+          <a href="projects.html" class="btn btn-primary">View Projects</a>
+          <a href="experience.html" class="btn btn-secondary">Experience</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d" alt="Profile" />
       </div>
     </div>
-    <div class="hero-image">
-      <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d" alt="Profile" />
-    </div>
-  </div>
-</section>
+  </section>
 
-<section>
-  <h2>About Me</h2>
-  <p class="section-subtitle">
-    I am a disciplined and detail-oriented student building a strong foundation in
-    computer science through coursework, projects, and independent research.
-  </p>
-  <div class="grid grid-2">
-    <div class="card">
-      <h3>Interests</h3>
-      <p>Software engineering, algorithms, numerical methods, and applied machine learning.</p>
+  <!-- About Section -->
+  <section>
+    <h2>About Me</h2>
+    <p class="section-subtitle">
+      I am a disciplined and detail-oriented student building a strong foundation in
+      computer science through coursework, projects, and independent research.
+    </p>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Interests</h3>
+        <p>Software engineering, algorithms, numerical methods, and applied machine learning.</p>
+      </div>
+      <div class="card">
+        <h3>Approach</h3>
+        <p>Emphasis on correctness, performance, and readable system design.</p>
+      </div>
     </div>
-    <div class="card">
-      <h3>Approach</h3>
-      <p>Emphasis on correctness, performance, and readable system design.</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<footer>© 2026 Zayaan</footer>
-<script src="script.js"></script>
+  <footer>© 2026 Zayaan</footer>
+  <script src="script.js"></script>
 </body>
 </html>
