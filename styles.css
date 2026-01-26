@@ -8,66 +8,106 @@ Description:
   - Styles navbar, hero section, banners, cards, grids, timeline, gallery, and footer.
   - Includes responsive rules for mobile devices.
   - Implements cursor mist, fluid drop, and futuristic image hover effects.
+  - REFINED: Added Glassmorphism, Bento Grid, Light Mode & Detailed Footer.
 ===========================================================
 */
-
 
 /* ============================
    Root variables & base reset
 ============================ */
-:root{
-  --bg:#0b0d16;
-  --bg-secondary:#10141f;
-  --text:#e6e6e6;
-  --muted:#a1b0cc;
-  --accent:#4f8cff;
-  --accent-soft:rgba(79,140,255,0.2);
-  --card:#161a26;
-  --border:rgba(79,140,255,0.2);
+:root {
+  --bg: #0d0f14; /* Refined Dark Mode 2.0 Depth */
+  --bg-secondary: #161a23;
+  --text: #f0f2f5;
+  --muted: #94a3b8;
+  --accent: #6366f1; /* Modern Indigo */
+  --accent-soft: rgba(99, 102, 241, 0.15);
+  --accent-glow: rgba(99, 102, 241, 0.3);
+  
+  /* Glassmorphism Additions */
+  --card-glass: rgba(255, 255, 255, 0.03);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --card: var(--card-glass); /* Replaces solid card color */
+  --border: var(--border-glass); /* Replaces solid border color */
 }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+/* --- ADDED: Light Mode Overrides --- */
+:root.light-mode {
+  --bg: #f8fafc;
+  --bg-secondary: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.1);
+  --accent-glow: rgba(79, 70, 229, 0.2);
+  --card-glass: rgba(0, 0, 0, 0.02);
+  --border-glass: rgba(0, 0, 0, 0.05);
+  --card: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
 }
 
-html,body{height:100%;}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body { height: 100%; }
 
 /* ============================
    Global layout & background
 ============================ */
-body{
-  font-family:'Inter',system-ui;
-  background-color:var(--bg);
+body {
+  font-family: 'Inter', system-ui;
+  background-color: var(--bg);
   background-image:
-    radial-gradient(1200px 600px at 10% -10%,rgba(79,140,255,0.05),transparent 40%),
-    radial-gradient(1000px 500px at 90% 10%,rgba(79,140,255,0.05),transparent 40%);
-  background-repeat:no-repeat;
-  background-size:cover;
-  background-attachment:fixed;
-  color:var(--text);
-  line-height:1.6;
-  opacity:1;
-  transition:opacity 0.6s ease;
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
+    radial-gradient(1200px 600px at 10% -10%, rgba(99, 102, 241, 0.05), transparent 40%),
+    radial-gradient(1000px 500px at 90% 10%, rgba(99, 102, 241, 0.05), transparent 40%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.6;
+  opacity: 1;
+  /* Added transitions for theme switching */
+  transition: opacity 0.6s ease, background-color 0.4s ease, color 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-main{flex:1;}
+main { flex: 1; }
+
+/* Damascus Texture Overlay - Preserved */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('https://www.transparenttextures.com/patterns/damascus-steel.png') repeat;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
 
 /* ============================
-   Navigation
+   Navigation - Glassmorphism Refined
 ============================ */
 nav {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(11,13,22,.85);
-  border-bottom: 1px solid var(--border);
+  background: rgba(13, 15, 20, 0.7);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--border-glass);
   z-index: 1000;
-  height: 58px; /* reduced from 65px */
+  height: 58px;
+  transition: background-color 0.4s ease;
+}
+
+/* Light mode nav adjustment */
+:root.light-mode nav {
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .nav-container {
@@ -82,8 +122,8 @@ nav {
 
 nav a {
   display: inline-block;
-  padding: 0.45rem 1rem;
-  border-radius: 6px;
+  padding: 0.45rem 1rem; /* Accessibility hit-area preserved */
+  border-radius: 8px;
   background: transparent;
   color: var(--muted);
   text-decoration: none;
@@ -104,7 +144,7 @@ nav a {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 2.5rem;
+  gap: 2rem;
   padding: 0;
   margin: 0 auto;
 }
@@ -113,329 +153,354 @@ nav a.active,
 nav a:hover {
   background: var(--accent-soft);
   color: var(--accent);
-  box-shadow: 0 4px 10px rgba(79,140,255,0.2);
+  box-shadow: 0 4px 12px var(--accent-glow);
 }
 
-@media(max-width:900px) {
-  .nav-container {
-    flex-direction: column;
-  }
-
-  .logo {
-    margin-bottom: 0.5rem;
-    text-align: center;
-  }
-
-  nav ul {
-    flex-direction: column;
-    gap: 0.8rem;
-    align-items: center;
-  }
+/* --- ADDED: Theme Toggle Button Style --- */
+#theme-toggle {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease, background 0.3s;
+  margin-left: 1rem;
 }
 
-/* ============================
-   Sections & transitions
-============================ */
-section{
-  max-width:1100px;
-  margin:auto;
-  padding:4rem 1.5rem;
-  opacity:0;
-  transform:translateY(30px);
-  transition:all 0.8s ease;
-}
-
-section.visible{
-  opacity:1;
-  transform:translateY(0);
+#theme-toggle:hover {
+  transform: rotate(15deg) scale(1.05);
+  background: var(--accent-glow);
 }
 
 /* ============================
-   Hero section
+   Bento Grid & Glass Cards
 ============================ */
-.hero{
-  min-height:60vh;
-  display:flex;
-  align-items:center;
-  padding-top:5rem;
+.grid { display: grid; gap: 1.5rem; }
+
+/* Bento Grid System */
+.grid-bento {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  grid-auto-rows: minmax(200px, auto);
 }
 
-.hero-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:3rem;
-  align-items:center;
+/* Glassmorphism Card Refinement */
+.card {
+  background: var(--card); /* Updated to use dynamic var */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid var(--border); /* Updated to use dynamic var */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 2;
 }
 
-.hero h1{
-  font-size:clamp(2.2rem,4vw,3rem);
-  margin-bottom:1rem;
+.card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent);
+  box-shadow: 0 15px 35px -10px var(--accent-glow);
 }
 
-.hero h1 span{color:var(--accent);}
-.hero p{
-  color:var(--muted);
-  max-width:500px;
-  margin-bottom:2rem;
+/* Feature card for Bento Grid */
+.card-large {
+  grid-column: span 2;
+  grid-row: span 2;
 }
 
-.hero-buttons{display:flex;gap:1rem;}
+/* ============================
+   Sections & Transitions
+============================ */
+section {
+  max-width: 1100px;
+  margin: auto;
+  padding: 4rem 1.5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+  position: relative;
+  z-index: 2;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================
+   Hero Section
+============================ */
+.hero {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  padding-top: 5rem;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+.hero h1 span { color: var(--accent); }
+
+.hero p {
+  color: var(--muted);
+  max-width: 500px;
+  margin-bottom: 2rem;
+}
 
 /* ============================
    Buttons
 ============================ */
-.btn{
-  padding:0.7rem 1.3rem;
-  border-radius:8px;
-  font-weight:500;
-  text-decoration:none;
-  transition:all 0.25s ease;
+.btn {
+  padding: 0.7rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  display: inline-block;
 }
 
-.btn-primary{
-  background:var(--accent);
-  color:#fff;
-  box-shadow:0 4px 15px rgba(79,140,255,0.4);
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 15px var(--accent-glow);
 }
 
-.btn-primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 30px rgba(79,140,255,0.55);
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px var(--accent-glow);
 }
 
-.btn-secondary{
-  border:1px solid var(--border);
-  color:var(--text);
+.btn-secondary {
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.btn-secondary:hover{background:var(--accent-soft);}
+.btn-secondary:hover { background: var(--accent-soft); }
 
 /* ============================
-   Images & glow effect
+   Images & Glow - Enhanced
 ============================ */
-.hero-image{
-  border-radius:16px;
-  overflow:hidden;
-  border:1px solid var(--border);
-  box-shadow:0 10px 30px rgba(79,140,255,0.15);
+.hero-image {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
-.hero-image img{
-  width:100%;
-  height:auto;
-  object-fit:cover;
+.hero-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
-img{
-  transition:box-shadow 0.4s ease,transform 0.3s ease;
-  box-shadow:0 0 12px rgba(180,150,255,0.25);
+img {
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 
-img:hover{
+img:hover {
   box-shadow:
-    0 0 20px rgba(180,150,255,0.55),
-    0 0 40px rgba(180,150,255,0.35),
-    0 0 60px rgba(180,150,255,0.25);
-  transform:scale(1.03);
+    0 0 20px var(--accent-glow),
+    0 0 40px rgba(99, 102, 241, 0.2);
+  transform: scale(1.02);
 }
 
 /* ============================
-   Cards & grids
+   Timeline (Refined Centered Axis)
 ============================ */
-.grid{display:grid;gap:1.5rem;}
-.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
-
-.card{
-  background:var(--card);
-  padding:1.5rem;
-  border-radius:14px;
-  border:1px solid var(--border);
-  box-shadow:0 4px 20px rgba(79,140,255,0.1);
-  transition:transform 0.25s ease,box-shadow 0.25s ease;
+.timeline {
+  position: relative;
+  max-width: 1100px;
+  margin: 3rem auto;
 }
 
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 20px 40px rgba(79,140,255,0.25);
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0.5;
+}
+
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 1rem 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.timeline-item.left { text-align: right; }
+.timeline-item.right { left: 50%; }
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  width: 18px;
+  height: 18px;
+  background: var(--bg);
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.timeline-item.left::before { right: -9px; }
+.timeline-item.right::before { left: -9px; }
+
+/* ============================
+   Gallery
+============================ */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.gallery img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid var(--border);
 }
 
 /* ============================
-   Timeline (centered axis)
+   Banner - Glassmorphism
 ============================ */
-.timeline{
-  position:relative;
-  max-width:1100px;
-  margin:3rem auto;
-}
-
-.timeline::before{
-  content:'';
-  position:absolute;
-  top:0;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:4px;
-  background:var(--accent);
-  border-radius:2px;
-}
-
-.timeline-item{
-  position:relative;
-  width:50%;
-  padding:1rem 2rem;
-  margin-bottom:3rem;
-}
-
-.timeline-item.left{text-align:right;}
-.timeline-item.right{left:50%;}
-
-.timeline-item::before{
-  content:'';
-  position:absolute;
-  top:10px;
-  width:16px;
-  height:16px;
-  background:var(--bg-secondary);
-  border:3px solid var(--accent);
-  border-radius:50%;
-}
-
-.timeline-item.left::before{right:-8px;}
-.timeline-item.right::before{left:-8px;}
-
-/* ============================
-   Gallery (forced 2-column)
-============================ */
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:1.5rem;
-  margin-top:2rem;
-}
-
-.gallery img{
-  width:100%;
-  height:200px;
-  object-fit:cover;
-  border-radius:12px;
-  border:1px solid var(--border);
-  cursor:pointer;
-  transition:transform 0.25s ease,box-shadow 0.25s ease;
-}
-
-.gallery img:hover{
-  transform:scale(1.05);
-  box-shadow:0 10px 30px rgba(79,140,255,0.25);
+.banner {
+  max-width: 1000px;
+  width: 90%;
+  margin: 3rem auto;
+  padding: 4rem 2rem;
+  background: var(--card-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-left: 6px solid var(--accent);
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
 /* ============================
-   Banner
+   Advanced Effects (Preserved & Optimized)
 ============================ */
-.banner{
-  max-width:1000px;
-  width:90%;
-  margin:3rem auto;
-  padding:4rem 2rem;
-  background:rgba(15,20,35,0.9);
-  border-left:6px solid var(--accent);
-  border-radius:16px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(79,140,255,0.2);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  transition:all 0.5s ease;
+.fluid-drop {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  background: var(--accent-soft);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0.7;
+  z-index: 9999;
+  animation: drop 0.6s ease-out forwards;
 }
 
-.banner:hover{
-  transform:translateY(-3px);
-  box-shadow:0 15px 40px rgba(79,140,255,0.25);
+@keyframes drop {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
 }
 
-.banner h2{
-  font-size:clamp(2rem,4vw,3rem);
-  margin-bottom:1rem;
-  color:var(--accent);
-}
-
-.banner p{
-  color:var(--muted);
-  margin-bottom:2rem;
-  max-width:800px;
+.cursor-mist {
+  position: fixed;
+  width: 15px;
+  height: 15px;
+  background: rgba(180, 120, 255, 0.25);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  filter: blur(16px);
+  transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
+  will-change: transform, opacity;
 }
 
 /* ============================
-   Footer
+   Footer - REPLACED WITH DETAILED VERSION
 ============================ */
-footer{
-  text-align:center;
-  padding:2rem;
-  font-size:0.85rem;
-  color:var(--muted);
-  flex-shrink:0;
+.detailed-footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-glass);
+  padding: 4rem 2rem 2rem;
+  margin-top: 5rem;
+  transition: background-color 0.4s ease;
+}
+
+.footer-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+}
+
+.footer-col h4 {
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+  font-family: 'Lexend Deca', sans-serif;
+}
+
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.8rem; }
+.footer-col a { color: var(--muted); text-decoration: none; transition: color 0.3s; }
+.footer-col a:hover { color: var(--accent); }
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 3rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-glass);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 /* ============================
-   Advanced effects
+   Responsive Adjustments
 ============================ */
-.fluid-drop{
-  position:fixed;
-  width:30px;
-  height:30px;
-  background:var(--accent-soft);
-  border-radius:50%;
-  pointer-events:none;
-  transform:translate(-50%,-50%) scale(0);
-  opacity:0.7;
-  z-index:9999;
-  animation:drop 0.6s ease-out forwards;
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; text-align: center; }
+  .hero-image { width: 80%; margin: auto; }
+  
+  /* Adjusted nav container for toggle button space */
+  .nav-container { padding-right: 1rem; }
+  .nav-links { display: none; } 
+  
+  .timeline::before { left: 20px; transform: none; }
+  .timeline-item { width: 100%; left: 0; text-align: left; padding-left: 50px; }
+  .timeline-item::before { left: 11px; }
+  
+  /* Footer responsive */
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
 }
 
-@keyframes drop{
-  0%{transform:translate(-50%,-50%) scale(0);opacity:0.7;}
-  50%{transform:translate(-50%,-50%) scale(1.5);opacity:0.5;}
-  100%{transform:translate(-50%,-50%) scale(0);opacity:0;}
-}
-
-.cursor-mist{
-  position:fixed;
-  width:15px;
-  height:15px;
-  background:rgba(180,120,255,0.35);
-  border-radius:50%;
-  pointer-events:none;
-  transform:translate(-50%,-50%);
-  z-index:9999;
-  filter:blur(14px);
-  will-change:transform,opacity,width,height;
-}
-
-/* ============================
-   Background overlay
-============================ */
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:url('https://www.transparenttextures.com/patterns/damascus-steel.png') repeat;
-  opacity:0.05;
-  pointer-events:none;
-}
-
-/* ============================
-   Responsive adjustments
-============================ */
-@media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr;text-align:center;}
-  .hero-image{width:70%;margin:auto;}
-  .nav-container{flex-direction:column;}
-  nav ul{flex-direction:column;gap:0.8rem;}
-  .timeline::before{left:10px;transform:none;}
-  .timeline-item{width:100%;left:0;text-align:left;padding:1rem;}
-  .timeline-item::before{left:10px;}
-}
-
-@media(max-width:700px){
-  .gallery{grid-template-columns:1fr;}
+@media (max-width: 700px) {
+  .gallery { grid-template-columns: 1fr; }
+  .card-large { grid-column: span 1; }
 }
