@@ -1,167 +1,183 @@
-/*
-===========================================================
-File: script.js
-Author: Zayaan Bhanwadia
-Created: 2026
-Description:
-  - Fluid drop animation on mouse clicks.
-  - Page fade-in/fade-out transitions for internal links.
-  - Misty purple cursor trail following the mouse.
-  - Reactive cursor states for interactive elements.
-  - REFINED: Added Light/Dark Mode Toggle Logic.
-===========================================================
-*/
+const PAGE_TRANSITION_MS = 300;
+const THEME_STORAGE_KEY = "portfolio-theme";
 
+function setTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
 
-/* ============================
-   Fluid drop on click
-============================ */
-document.addEventListener("click", e => {
-  const drop = document.createElement("div");
-  drop.classList.add("fluid-drop");
+  const toggle = document.getElementById("theme-toggle");
+  if (toggle) {
+    const nextMode = theme === "dark" ? "Light mode" : "Dark mode";
+    toggle.textContent = nextMode;
+    toggle.setAttribute("aria-label", `Switch to ${nextMode.toLowerCase()}`);
+  }
+}
 
-  drop.style.left = `${e.clientX}px`;
-  drop.style.top = `${e.clientY}px`;
+function initTheme() {
+  const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  const initialTheme = storedTheme === "light" || storedTheme === "dark" ? storedTheme : "dark";
+  setTheme(initialTheme);
 
-  const size = 20 + Math.random() * 20;
-  drop.style.width = `${size}px`;
-  drop.style.height = `${size}px`;
-  
-  // Updated to match new Indigo accent palette
-  drop.style.background = `rgba(99, 102, 241, ${0.2 + Math.random() * 0.2})`;
-
-  document.body.appendChild(drop);
-  drop.addEventListener("animationend", () => drop.remove());
-});
-
-/* ============================
-   DOM Load Events (Theme & Transitions)
-============================ */
-document.addEventListener("DOMContentLoaded", () => {
-  
-  /* --- 1. THEME SWITCHER LOGIC (Added) --- */
-  const themeToggle = document.getElementById("theme-toggle");
-  const currentTheme = localStorage.getItem("theme");
-
-  // Check saved preference on load
-  if (currentTheme === "light") {
-    document.documentElement.classList.add("light-mode");
+  const toggle = document.getElementById("theme-toggle");
+  if (!toggle) {
+    return;
   }
 
-  // Toggle button listener
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      document.documentElement.classList.toggle("light-mode");
-      
-      // Save preference
-      const newTheme = document.documentElement.classList.contains("light-mode") ? "light" : "dark";
-      localStorage.setItem("theme", newTheme);
-    });
-  }
-
-  /* --- 2. PAGE FADE TRANSITIONS --- */
-  document.body.style.opacity = 0;
-  requestAnimationFrame(() => {
-    document.body.style.transition = "opacity 0.6s ease";
-    document.body.style.opacity = 1;
+  toggle.addEventListener("click", () => {
+    const current = document.documentElement.getAttribute("data-theme") || "dark";
+    const next = current === "dark" ? "light" : "dark";
+    setTheme(next);
+    localStorage.setItem(THEME_STORAGE_KEY, next);
   });
+}
 
-  document.querySelectorAll("nav a").forEach(link => {
-    const href = link.getAttribute("href");
-    if (href && !href.startsWith("http") && !href.startsWith("#")) {
-      link.addEventListener("click", e => {
-        e.preventDefault();
-        document.body.style.opacity = 0;
-        setTimeout(() => (window.location.href = href), 600);
-      });
+function isInternalTransitionLink(link) {
+  const href = link.getAttribute("href");
+  if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) {
+    return false;
+  }
+
+  const url = new URL(href, window.location.href);
+  if (url.origin !== window.location.origin) {
+    return false;
+  }
+
+  const fileName = url.pathname.split("/").pop() || "";
+  const looksLikePage = fileName.endsWith(".html") || !fileName.includes(".");
+  return looksLikePage;
+}
+
+function initPageTransitions() {
+  document.body.classList.add("page-enter");
+
+  document.querySelectorAll("a[href]").forEach((link) => {
+    if (!isInternalTransitionLink(link)) {
+      return;
     }
-  });
 
-  /* --- 3. REACTIVE CURSOR STATE --- */
-  const interactiveElements = document.querySelectorAll('a, .card, button, .btn, .gallery img');
-  
-  interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      trails.forEach(trail => {
-        // Expand mist and change to indigo accent on hover
-        trail.isHovering = true;
-        trail.element.style.background = 'rgba(99, 102, 241, 0.45)';
-      });
+    link.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey ||
+        link.target === "_blank" ||
+        link.hasAttribute("download")
+      ) {
+        return;
+      }
+
+      const destination = new URL(link.getAttribute("href"), window.location.href);
+      if (destination.href === window.location.href) {
+        return;
+      }
+
+      event.preventDefault();
+      document.body.classList.remove("page-enter");
+      document.body.classList.add("page-leaving");
+
+      window.setTimeout(() => {
+        window.location.href = destination.href;
+      }, PAGE_TRANSITION_MS);
     });
-
-    el.addEventListener('mouseleave', () => {
-      trails.forEach(trail => {
-        // Shrink mist and return to purple
-        trail.isHovering = false;
-        trail.element.style.background = 'rgba(180, 120, 255, 0.25)';
-      });
-    });
-  });
-});
-
-/* ============================
-   Misty cursor trail (advanced)
-============================ */
-const mistCount = 30;
-const trails = [];
-const mouse = { x: 0, y: 0 };
-
-for (let i = 0; i < mistCount; i++) {
-  const element = document.createElement("div");
-  element.classList.add("cursor-mist");
-
-  const size = 15 + Math.random() * 25;
-  element.style.width = `${size}px`;
-  element.style.height = `${size}px`;
-  element.style.opacity = 0.05 + Math.random() * 0.15;
-
-  document.body.appendChild(element);
-
-  trails.push({
-    element,
-    x: 0,
-    y: 0,
-    baseSize: size,
-    speed: 0.2 + Math.random() * 0.25,
-    isHovering: false
   });
 }
 
-document.addEventListener("mousemove", e => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-});
+function initClickAnimation() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
 
-function animateTrail() {
-  let x = mouse.x;
-  let y = mouse.y;
+  document.addEventListener("click", (event) => {
+    const burst = document.createElement("span");
+    burst.className = "click-burst";
+    burst.style.left = `${event.clientX}px`;
+    burst.style.top = `${event.clientY}px`;
 
-  trails.forEach((trail, index) => {
-    trail.x += (x - trail.x) * trail.speed;
-    trail.y += (y - trail.y) * trail.speed;
-
-    trail.element.style.transform = `translate(${trail.x}px,${trail.y}px)`;
-    
-    // Smooth opacity falloff
-    const baseOpacity = 0.1 * ((mistCount - index) / mistCount);
-    trail.element.style.opacity = trail.isHovering ? baseOpacity * 2 : baseOpacity;
-
-    // Scale logic: base jitter + hover expansion
-    const jitter = 0.8 + Math.random() * 0.4;
-    const hoverScale = trail.isHovering ? 2.5 : 1.0;
-    
-    const finalWidth = trail.baseSize * jitter * hoverScale;
-    const finalHeight = trail.baseSize * jitter * hoverScale;
-    
-    trail.element.style.width = `${finalWidth}px`;
-    trail.element.style.height = `${finalHeight}px`;
-
-    // Trail physics (the "snaking" effect)
-    x = trail.x;
-    y = trail.y;
+    document.body.appendChild(burst);
+    burst.addEventListener("animationend", () => burst.remove());
   });
-
-  requestAnimationFrame(animateTrail);
 }
 
-animateTrail();
+function initMistTrail() {
+  if (
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    !window.matchMedia("(pointer: fine)").matches
+  ) {
+    return;
+  }
+
+  const mistLayer = document.createElement("div");
+  mistLayer.className = "mist-layer";
+  document.body.appendChild(mistLayer);
+
+  const mistCount = 12;
+  const trail = [];
+  const pointer = {
+    x: window.innerWidth * 0.5,
+    y: window.innerHeight * 0.5,
+    active: false
+  };
+
+  for (let i = 0; i < mistCount; i += 1) {
+    const dot = document.createElement("span");
+    dot.className = "mist-dot";
+
+    const size = 12 + Math.random() * 18;
+    dot.style.width = `${size}px`;
+    dot.style.height = `${size}px`;
+    dot.style.opacity = "0";
+    mistLayer.appendChild(dot);
+
+    trail.push({
+      dot,
+      x: pointer.x,
+      y: pointer.y,
+      size,
+      speed: 0.2 - i * 0.01
+    });
+  }
+
+  document.addEventListener("mousemove", (event) => {
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+    pointer.active = true;
+  });
+
+  document.addEventListener("mouseleave", () => {
+    pointer.active = false;
+  });
+
+  document.addEventListener("mouseenter", () => {
+    pointer.active = true;
+  });
+
+  const render = () => {
+    let targetX = pointer.x;
+    let targetY = pointer.y;
+
+    trail.forEach((item, index) => {
+      item.x += (targetX - item.x) * Math.max(0.06, item.speed);
+      item.y += (targetY - item.y) * Math.max(0.06, item.speed);
+
+      const baseOpacity = (mistCount - index) / mistCount;
+      item.dot.style.opacity = pointer.active ? String(baseOpacity * 0.45) : "0";
+      item.dot.style.transform = `translate3d(${item.x - item.size * 0.5}px, ${item.y - item.size * 0.5}px, 0)`;
+
+      targetX = item.x;
+      targetY = item.y;
+    });
+
+    window.requestAnimationFrame(render);
+  };
+
+  render();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initTheme();
+  initPageTransitions();
+  initClickAnimation();
+  initMistTrail();
+});
