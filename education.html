@@ -17,13 +17,23 @@
         <img class="brand-icon" src="favicon.svg" alt="z e Z logo">
         <span>Zayaan Bhanwadia</span>
       </a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="projects.html">Projects</a>
-        <a href="experience.html">Experience</a>
-        <a class="active" href="education.html">Education</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-menu" id="site-menu">
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="projects.html">Projects</a>
+          <a href="experience.html">Experience</a>
+          <a class="active" href="education.html">Education</a>
+        </div>
+        <div class="nav-actions">
+          <a class="btn secondary nav-resume" href="assets/Zayaan_Bhanwadia_Resume.pdf" download>Download Resume</a>
+          <button id="theme-toggle" type="button" aria-label="Toggle light and dark mode">Theme</button>
+        </div>
       </div>
-      <button id="theme-toggle" type="button" aria-label="Toggle light and dark mode">Theme</button>
     </div>
   </nav>
 
@@ -31,7 +41,6 @@
     <section class="section">
       <div class="section-head">
         <h1>Education</h1>
-        <p>Academic background, scholarship recognition, and core areas of study.</p>
       </div>
 
       <div class="cards">

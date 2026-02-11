@@ -1,4 +1,5 @@
-const PAGE_TRANSITION_MS = 300;
+const PAGE_TRANSITION_MS = 150;
+const MOBILE_NAV_BREAKPOINT = 760;
 const THEME_STORAGE_KEY = "portfolio-theme";
 
 function setTheme(theme) {
@@ -27,6 +28,62 @@ function initTheme() {
     const next = current === "dark" ? "light" : "dark";
     setTheme(next);
     localStorage.setItem(THEME_STORAGE_KEY, next);
+  });
+}
+
+function initMobileNav() {
+  const nav = document.querySelector(".site-nav");
+  const navToggle = document.querySelector(".nav-toggle");
+  const navMenu = document.querySelector(".nav-menu");
+  if (!nav || !navToggle || !navMenu) {
+    return;
+  }
+
+  const closeMenu = () => {
+    navMenu.classList.remove("open");
+    navToggle.setAttribute("aria-expanded", "false");
+  };
+
+  const openMenu = () => {
+    navMenu.classList.add("open");
+    navToggle.setAttribute("aria-expanded", "true");
+  };
+
+  navToggle.addEventListener("click", () => {
+    if (navMenu.classList.contains("open")) {
+      closeMenu();
+      return;
+    }
+
+    openMenu();
+  });
+
+  navMenu.querySelectorAll("a[href]").forEach((link) => {
+    link.addEventListener("click", () => {
+      closeMenu();
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!navMenu.classList.contains("open")) {
+      return;
+    }
+
+    if (!nav.contains(event.target)) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > MOBILE_NAV_BREAKPOINT) {
+      closeMenu();
+    }
   });
 }
 
@@ -84,100 +141,8 @@ function initPageTransitions() {
   });
 }
 
-function initClickAnimation() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return;
-  }
-
-  document.addEventListener("click", (event) => {
-    const burst = document.createElement("span");
-    burst.className = "click-burst";
-    burst.style.left = `${event.clientX}px`;
-    burst.style.top = `${event.clientY}px`;
-
-    document.body.appendChild(burst);
-    burst.addEventListener("animationend", () => burst.remove());
-  });
-}
-
-function initMistTrail() {
-  if (
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    !window.matchMedia("(pointer: fine)").matches
-  ) {
-    return;
-  }
-
-  const mistLayer = document.createElement("div");
-  mistLayer.className = "mist-layer";
-  document.body.appendChild(mistLayer);
-
-  const mistCount = 12;
-  const trail = [];
-  const pointer = {
-    x: window.innerWidth * 0.5,
-    y: window.innerHeight * 0.5,
-    active: false
-  };
-
-  for (let i = 0; i < mistCount; i += 1) {
-    const dot = document.createElement("span");
-    dot.className = "mist-dot";
-
-    const size = 12 + Math.random() * 18;
-    dot.style.width = `${size}px`;
-    dot.style.height = `${size}px`;
-    dot.style.opacity = "0";
-    mistLayer.appendChild(dot);
-
-    trail.push({
-      dot,
-      x: pointer.x,
-      y: pointer.y,
-      size,
-      speed: 0.2 - i * 0.01
-    });
-  }
-
-  document.addEventListener("mousemove", (event) => {
-    pointer.x = event.clientX;
-    pointer.y = event.clientY;
-    pointer.active = true;
-  });
-
-  document.addEventListener("mouseleave", () => {
-    pointer.active = false;
-  });
-
-  document.addEventListener("mouseenter", () => {
-    pointer.active = true;
-  });
-
-  const render = () => {
-    let targetX = pointer.x;
-    let targetY = pointer.y;
-
-    trail.forEach((item, index) => {
-      item.x += (targetX - item.x) * Math.max(0.06, item.speed);
-      item.y += (targetY - item.y) * Math.max(0.06, item.speed);
-
-      const baseOpacity = (mistCount - index) / mistCount;
-      item.dot.style.opacity = pointer.active ? String(baseOpacity * 0.45) : "0";
-      item.dot.style.transform = `translate3d(${item.x - item.size * 0.5}px, ${item.y - item.size * 0.5}px, 0)`;
-
-      targetX = item.x;
-      targetY = item.y;
-    });
-
-    window.requestAnimationFrame(render);
-  };
-
-  render();
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
+  initMobileNav();
   initPageTransitions();
-  initClickAnimation();
-  initMistTrail();
 });
