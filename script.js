@@ -1,4 +1,4 @@
-const PAGE_TRANSITION_MS = 75;
+const PAGE_TRANSITION_MS = 0.075;
 const MOBILE_NAV_BREAKPOINT = 760;
 const THEME_STORAGE_KEY = "portfolio-theme";
 

@@ -1,5 +1,6 @@
 :root {
   --transition-fast: 0.075s;
+  --page-transition: 0.075ms;
   --radius: 14px;
 
   --bg: #090c14;
@@ -55,11 +56,11 @@ body {
   transition:
     background-color var(--transition-fast) ease,
     color var(--transition-fast) ease,
-    opacity var(--transition-fast) ease;
+    opacity var(--page-transition) ease;
 }
 
 body.page-enter {
-  animation: pageIn var(--transition-fast) ease;
+  animation: pageIn var(--page-transition) ease;
 }
 
 body.page-leaving {
