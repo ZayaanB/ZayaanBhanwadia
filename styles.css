@@ -1,5 +1,5 @@
 :root {
-  --transition-fast: 0.15s;
+  --transition-fast: 0.075s;
   --radius: 14px;
 
   --bg: #090c14;
@@ -13,6 +13,10 @@
   --shadow: 0 16px 42px rgba(5, 8, 16, 0.45);
   --surface-faint: rgba(33, 43, 69, 0.64);
   --ring-shadow: rgba(9, 12, 20, 0.76);
+  --mist-core: rgba(54, 97, 184, 0.28);
+  --mist-edge: rgba(28, 48, 98, 0.06);
+  --click-core: rgba(146, 185, 255, 0.62);
+  --click-edge: rgba(52, 92, 180, 0.14);
 }
 
 html[data-theme="light"] {
@@ -27,6 +31,10 @@ html[data-theme="light"] {
   --shadow: 0 14px 30px rgba(52, 73, 130, 0.16);
   --surface-faint: rgba(255, 255, 255, 0.72);
   --ring-shadow: rgba(236, 240, 255, 0.88);
+  --mist-core: rgba(140, 200, 255, 0.34);
+  --mist-edge: rgba(140, 200, 255, 0.08);
+  --click-core: rgba(163, 209, 255, 0.65);
+  --click-edge: rgba(120, 185, 255, 0.2);
 }
 
 * {
@@ -442,6 +450,40 @@ h2 {
 
 .footer-links a:hover {
   color: var(--primary);
+}
+
+.click-burst {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1100;
+  background: radial-gradient(circle, var(--click-core), var(--click-edge));
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: clickBurst 0.35s ease-out forwards;
+}
+
+@keyframes clickBurst {
+  to {
+    transform: translate(-50%, -50%) scale(3.3);
+    opacity: 0;
+  }
+}
+
+.mist-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1050;
+}
+
+.mist-dot {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(10px);
+  background: radial-gradient(circle, var(--mist-core), var(--mist-edge));
+  will-change: transform, opacity;
 }
 
 ::selection {

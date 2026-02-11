@@ -1,4 +1,4 @@
-const PAGE_TRANSITION_MS = 150;
+const PAGE_TRANSITION_MS = 75;
 const MOBILE_NAV_BREAKPOINT = 760;
 const THEME_STORAGE_KEY = "portfolio-theme";
 
@@ -141,8 +141,105 @@ function initPageTransitions() {
   });
 }
 
+function initClickAnimation() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
+  document.addEventListener("pointerdown", (event) => {
+    const burst = document.createElement("span");
+    burst.className = "click-burst";
+    burst.style.left = `${event.clientX}px`;
+    burst.style.top = `${event.clientY}px`;
+    document.body.appendChild(burst);
+    burst.addEventListener("animationend", () => burst.remove(), { once: true });
+  });
+}
+
+function initMistTrail() {
+  if (
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    !window.matchMedia("(pointer: fine)").matches
+  ) {
+    return;
+  }
+
+  const mistLayer = document.createElement("div");
+  mistLayer.className = "mist-layer";
+  document.body.appendChild(mistLayer);
+
+  const mistCount = 10;
+  const trail = [];
+  const pointer = {
+    x: window.innerWidth * 0.5,
+    y: window.innerHeight * 0.5,
+    active: false
+  };
+
+  for (let i = 0; i < mistCount; i += 1) {
+    const dot = document.createElement("span");
+    dot.className = "mist-dot";
+    const size = 12 + Math.random() * 16;
+
+    dot.style.width = `${size}px`;
+    dot.style.height = `${size}px`;
+    dot.style.opacity = "0";
+    mistLayer.appendChild(dot);
+
+    trail.push({
+      dot,
+      x: pointer.x,
+      y: pointer.y,
+      size,
+      speed: 0.2 - i * 0.012
+    });
+  }
+
+  document.addEventListener("pointermove", (event) => {
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+    pointer.active = true;
+  });
+
+  document.addEventListener("mouseleave", () => {
+    pointer.active = false;
+  });
+
+  document.addEventListener("mouseenter", () => {
+    pointer.active = true;
+  });
+
+  window.addEventListener("blur", () => {
+    pointer.active = false;
+  });
+
+  const render = () => {
+    let targetX = pointer.x;
+    let targetY = pointer.y;
+
+    trail.forEach((item, index) => {
+      const smoothSpeed = Math.max(0.05, item.speed);
+      item.x += (targetX - item.x) * smoothSpeed;
+      item.y += (targetY - item.y) * smoothSpeed;
+
+      const baseOpacity = (mistCount - index) / mistCount;
+      item.dot.style.opacity = pointer.active ? String(baseOpacity * 0.42) : "0";
+      item.dot.style.transform = `translate3d(${item.x - item.size * 0.5}px, ${item.y - item.size * 0.5}px, 0)`;
+
+      targetX = item.x;
+      targetY = item.y;
+    });
+
+    window.requestAnimationFrame(render);
+  };
+
+  render();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initMobileNav();
   initPageTransitions();
+  initClickAnimation();
+  initMistTrail();
 });
