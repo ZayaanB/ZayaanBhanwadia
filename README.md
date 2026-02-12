@@ -1,24 +1,27 @@
-# Zayaan Bhanwadia Portfolio
+# Zayaan Bhanwadia – Portfolio
 
-A personal portfolio website template with:
+Live Site:  
+https://zayaanb.github.io/ZayaanBhanwadia/
 
-- Dark-first theme with light mode toggle
-- Responsive navigation with mobile hamburger menu
-- 4-page navigation: Home, Projects, Experience, Education
-- Resume download action in the navbar
-- 0.075s page transitions for internal navigation
-- Click burst animation and cursor mist trail
-- Shared footer with LinkedIn, GitHub, and Devpost links
+## Overview
 
-## Pages
+Personal portfolio website showcasing my projects, experience, education, and resume. Built to provide a structured overview of my technical background and work.
 
-- `index.html`
-- `projects.html`
-- `experience.html`
-- `education.html`
+## Sections
 
-## Assets and scripts
+- **Projects** – Selected technical work with descriptions and technologies used  
+- **Experience** – Professional and technical roles  
+- **Education** – Academic background  
+- **Resume** – Downloadable PDF version  
 
-- `styles.css` - shared styling and responsive layout
-- `script.js` - theme toggle, transitions, mobile nav, click and mist effects
-- `favicon.svg` - website icon used for favicon and navbar branding
+## Tech Stack
+
+- HTML  
+- CSS  
+- JavaScript  
+- GitHub Pages  
+
+## Contact
+
+- GitHub: https://github.com/zayaanb
+- LinkedIn: (Add link)
