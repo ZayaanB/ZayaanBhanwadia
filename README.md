@@ -24,4 +24,4 @@ Personal portfolio website showcasing my projects, experience, education, and re
 ## Contact
 
 - GitHub: https://github.com/zayaanb
-- LinkedIn: (Add link)
+- LinkedIn: https://www.linkedin.com/in/zayaan-bhanwadia07/
