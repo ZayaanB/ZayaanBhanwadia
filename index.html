@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Zayaan Bhanwadia | Home</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <nav class="site-nav">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
-        <img class="brand-icon" src="favicon.svg" alt="z e Z logo">
+        <img class="brand-icon" src="favicon.svg" alt="Z logo">
         <span>Zayaan Bhanwadia</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Toggle navigation menu">
@@ -38,36 +38,38 @@
   </nav>
 
   <main class="container">
-    <section class="hero">
-      <article class="hero-card hero-copy" data-animate="fade-up" data-delay="0">
-        <span class="eyebrow">Computer Science Co-op Student at UTSC</span>
-        <h1>Building practical software with a clear focus on impact.</h1>
-        <p class="lead">
-          I am Zayaan Bhanwadia, a BSc Computer Science Co-op student at the University of Toronto
-          Scarborough. I enjoy building reliable tools and applying AI, data, and software engineering
-          to solve real-world problems.
-        </p>
+    <section class="landing-hero">
+      <div class="hero-split">
+        <div class="hero-left">
+          <div class="binary-z-container" aria-hidden="true">
+            <div class="binary-z" id="binary-z"></div>
+            <div class="binary-z-glow"></div>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-photo-wrap" data-animate="fade-up" data-delay="0">
+            <div class="hero-photo">
+              <img src="assets/photo.png" alt="Zayaan Bhanwadia" />
+            </div>
+          </div>
+          <div class="neofetch-panel" data-animate="fade-up" data-delay="1">
+            <div class="neofetch-line"><span class="nf-label">zayaan@portfolio</span><span class="nf-sep">:</span><span class="nf-path">~</span><span class="nf-sep">$</span></div>
+            <div class="neofetch-line nf-info"><span class="nf-key">OS</span><span class="nf-val">Zayaan Bhanwadia</span></div>
+            <div class="neofetch-line nf-info"><span class="nf-key">Host</span><span class="nf-val">Computer Science @ UTSC</span></div>
+            <div class="neofetch-line nf-info"><span class="nf-key">Kernel</span><span class="nf-val">AI · SWE · Data</span></div>
+            <div class="neofetch-line nf-info"><span class="nf-key">Shell</span><span class="nf-val">SWE · Data</span></div>
+            <div class="neofetch-line nf-info"><span class="nf-key">Theme</span><span class="nf-val">3x Hackathon Winner</span></div>
+            <div class="neofetch-line"><span class="nf-label">zayaan@portfolio</span><span class="nf-sep">:</span><span class="nf-path">~</span><span class="nf-sep">$</span> <span class="nf-cursor">_</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-cta" data-animate="fade-up" data-delay="2">
+        <p class="hero-tagline">Building practical software with a clear focus on impact.</p>
         <div class="btn-row">
           <a class="btn primary" href="projects.html">View Projects</a>
           <a class="btn secondary" href="experience.html">See Experience</a>
         </div>
-      </article>
-
-      <aside class="hero-card hero-panel" data-animate="fade-up" data-delay="1">
-        <h2 class="panel-title">Recent Activities</h2>
-        <div class="metric">
-          <strong>3.86 / 4.0 GPA</strong>
-          <span>Current academic standing in Computer Science Co-op.</span>
-        </div>
-        <div class="metric">
-          <strong>Hackathon Winner</strong>
-          <span>Placed 3rd overall at UTRA Hacks with an AI + Solana project.</span>
-        </div>
-        <div class="metric">
-          <strong>First-Year Associate, AMACSS</strong>
-          <span>Current position in the Association of Mathematics and Computer Science Students at UTSC.</span>
-        </div>
-      </aside>
+      </div>
     </section>
 
     <section class="section">
@@ -81,11 +83,16 @@
         <span class="chip" data-animate="scale-in" data-delay="3">C/C++</span>
         <span class="chip" data-animate="scale-in" data-delay="4">SQL</span>
         <span class="chip" data-animate="scale-in" data-delay="5">JavaScript</span>
-        <span class="chip" data-animate="scale-in" data-delay="6">HTML</span>
-        <span class="chip" data-animate="scale-in" data-delay="7">CSS</span>
-        <span class="chip" data-animate="scale-in" data-delay="8">Git</span>
-        <span class="chip" data-animate="scale-in" data-delay="9">Linux Terminal</span>
-        <span class="chip" data-animate="scale-in" data-delay="10">Arduino IDE</span>
+        <span class="chip" data-animate="scale-in" data-delay="6">HTML/CSS</span>
+        <span class="chip" data-animate="scale-in" data-delay="7">OpenCV</span>
+        <span class="chip" data-animate="scale-in" data-delay="8">PyTorch</span>
+        <span class="chip" data-animate="scale-in" data-delay="9">NumPy</span>
+        <span class="chip" data-animate="scale-in" data-delay="10">Tailwind CSS</span>
+        <span class="chip" data-animate="scale-in" data-delay="11">Next.js</span>
+        <span class="chip" data-animate="scale-in" data-delay="12">Git</span>
+        <span class="chip" data-animate="scale-in" data-delay="13">Linux</span>
+        <span class="chip" data-animate="scale-in" data-delay="14">Docker</span>
+        <span class="chip" data-animate="scale-in" data-delay="15">Arduino</span>
       </div>
     </section>
 
@@ -140,5 +147,6 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="binary-z.js"></script>
 </body>
 </html>

@@ -185,7 +185,7 @@ function initMistTrail() {
   for (let i = 0; i < mistCount; i += 1) {
     const dot = document.createElement("span");
     dot.className = "mist-dot";
-    const size = 12 + Math.random() * 16;
+    const size = 16 + Math.random() * 20;
     dot.style.width = `${size}px`;
     dot.style.height = `${size}px`;
     dot.style.opacity = "0";
@@ -215,7 +215,7 @@ function initMistTrail() {
       const cy = item.y - item.size / 2;
       item.dot.style.left = `${cx}px`;
       item.dot.style.top = `${cy}px`;
-      item.dot.style.opacity = pointer.active ? String(((mistCount - index) / mistCount) * 0.42) : "0";
+      item.dot.style.opacity = pointer.active ? String(((mistCount - index) / mistCount) * 0.7) : "0";
 
       targetX = item.x;
       targetY = item.y;
@@ -270,6 +270,25 @@ function initNavScroll() {
   );
 }
 
+/* Photo flip on tap for touch devices (hover doesn't work well) */
+function initPhotoFlip() {
+  const wrap = document.querySelector(".hero-photo-wrap");
+  if (!wrap) return;
+
+  wrap.addEventListener("click", (e) => {
+    const photo = wrap.querySelector(".hero-photo");
+    if (!photo) return;
+    photo.classList.remove("flip-tap");
+    void photo.offsetWidth;
+    photo.classList.add("flip-tap");
+    photo.addEventListener(
+      "animationend",
+      () => photo.classList.remove("flip-tap"),
+      { once: true }
+    );
+  });
+}
+
 /* Entry point – initializes all modules */
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
@@ -279,4 +298,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initMistTrail();
   initScrollAnimations();
   initNavScroll();
+  initPhotoFlip();
 });
