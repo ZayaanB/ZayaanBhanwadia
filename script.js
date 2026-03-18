@@ -1,11 +1,8 @@
-/* Portfolio – theme, nav, animations, effects */
-
-/* Config */
+/* Theme, nav, page transitions, effects */
 const PAGE_TRANSITION_MS = 400;
 const MOBILE_NAV_BREAKPOINT = 760;
 const THEME_STORAGE_KEY = "portfolio-theme";
 
-/* Sets data-theme on root, updates toggle label */
 function setTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
 
@@ -17,7 +14,6 @@ function setTheme(theme) {
   }
 }
 
-/* Restores theme from localStorage, wires toggle click */
 function initTheme() {
   const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
   const initialTheme = storedTheme === "light" || storedTheme === "dark" ? storedTheme : "dark";
@@ -36,7 +32,6 @@ function initTheme() {
   });
 }
 
-/* Mobile hamburger menu – open/close, outside click, escape */
 function initMobileNav() {
   const nav = document.querySelector(".site-nav");
   const navToggle = document.querySelector(".nav-toggle");
@@ -93,7 +88,6 @@ function initMobileNav() {
   });
 }
 
-/* Returns true if link targets same-origin page (not #, mailto, tel, external) */
 function isInternalTransitionLink(link) {
   const href = link.getAttribute("href");
   if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) {
@@ -110,7 +104,6 @@ function isInternalTransitionLink(link) {
   return looksLikePage;
 }
 
-/* Fade transition on internal navigation; prevents default, animates, then navigates */
 function initPageTransitions() {
   document.body.classList.add("page-enter");
 
@@ -149,7 +142,6 @@ function initPageTransitions() {
   });
 }
 
-/* Ripple burst on pointer down */
 function initClickAnimation() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     return;
@@ -165,7 +157,6 @@ function initClickAnimation() {
   });
 }
 
-/* Cursor-following trail of blurred dots; desktop only, respects reduced-motion */
 function initMistTrail() {
   if (
     window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
@@ -227,7 +218,6 @@ function initMistTrail() {
   render();
 }
 
-/* IntersectionObserver for [data-animate]; experience page reveals all on load */
 function initScrollAnimations() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -258,7 +248,6 @@ function initScrollAnimations() {
   });
 }
 
-/* Adds .scrolled class to nav when page scroll > 50px */
 function initNavScroll() {
   const nav = document.querySelector(".site-nav");
   if (!nav) return;
@@ -270,7 +259,6 @@ function initNavScroll() {
   );
 }
 
-/* Photo flip on tap for touch devices (hover doesn't work well) */
 function initPhotoFlip() {
   const wrap = document.querySelector(".hero-photo-wrap");
   if (!wrap) return;
@@ -289,7 +277,6 @@ function initPhotoFlip() {
   });
 }
 
-/* Entry point – initializes all modules */
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initMobileNav();

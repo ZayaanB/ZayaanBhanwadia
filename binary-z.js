@@ -1,8 +1,10 @@
+/* Binary Z – hover flips digits */
 (function () {
   const Z_PATTERN = [
     "01111110",
     "00000110",
     "00001100",
+    "00011000",
     "00011000",
     "00110000",
     "01100000",
@@ -22,12 +24,9 @@
         span.className = `bin-${bit}`;
         span.setAttribute("data-bit", bit);
         span.setAttribute("data-original", bit);
-        span.setAttribute("tabindex", "0");
         span.textContent = bit;
         span.addEventListener("mouseenter", () => flipBit(span));
         span.addEventListener("mouseleave", () => restoreBit(span));
-        span.addEventListener("focus", () => flipBit(span));
-        span.addEventListener("blur", () => restoreBit(span));
         el.appendChild(span);
       }
     }
